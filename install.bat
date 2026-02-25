@@ -9,8 +9,7 @@ echo.
 echo [1/7] Checking Node.js...
 node --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo ERROR: Node.js not found!
-    echo Please install from: https://nodejs.org
+    echo ERROR: Node.js not found! Install from: https://nodejs.org
     pause
     exit /b 1
 )
@@ -26,6 +25,7 @@ echo [3/7] Setting up configuration...
 if not exist .env (
     copy .env.example .env >nul
     notepad .env
+    echo Press any key after saving .env...
     pause >nul
 )
 for /f "usebackq tokens=1,2 delims==" %%a in (".env") do (
@@ -44,10 +44,11 @@ call npx openclaw onboard --non-interactive --accept-risk --gemini-api-key "%GEM
 echo OK: OpenClaw configured
 
 echo.
-echo [5/7] Starting OpenClaw Gateway...
-schtasks /run /tn "OpenClaw Gateway"
+echo [5/7] Starting Gateway + Telegram...
+schtasks /run /tn "OpenClaw Gateway" >nul 2>&1
 timeout /t 5 /nobreak >nul
-echo OK: Gateway started
+call npx openclaw channels add telegram --token "%TELEGRAM_BOT_TOKEN%" >nul 2>&1
+echo OK: Gateway + Telegram ready
 
 echo.
 echo [6/7] Registering agents...
