@@ -40,7 +40,7 @@ echo OK: Config loaded
 
 echo.
 echo [4/7] Setting up OpenClaw...
-call npx openclaw onboard --non-interactive --accept-risk --gemini-api-key "%GEMINI_API_KEY%" --workspace %CD%\workspace --gateway-token "%OPENCLAW_TOKEN%" --gateway-bind lan --install-daemon --skip-channels --flow quickstart
+call npx openclaw onboard --non-interactive --accept-risk --gemini-api-key "%GEMINI_API_KEY%" --workspace %CD%\workspace --gateway-token "%OPENCLAW_TOKEN%" --gateway-bind loopback --install-daemon --skip-channels --flow quickstart
 echo OK: OpenClaw configured
 
 echo.
