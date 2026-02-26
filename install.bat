@@ -45,7 +45,7 @@ echo OK: OpenClaw configured
 
 echo.
 echo [5/8] Starting Gateway...
-schtasks /run /tn "OpenClaw Gateway" >nul 2>&1
+start "OpenClaw Gateway" cmd /k "npx openclaw gateway start"
 echo Waiting for gateway to be ready...
 :waitloop
 npx openclaw gateway probe >nul 2>&1
