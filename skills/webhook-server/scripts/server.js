@@ -6,25 +6,6 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms'
 );
 
-const MISSION_CONTROL_URL = 'http://localhost:8000/api/v1/activity';
-const MISSION_CONTROL_TOKEN = 'akki_os_mission_control_secret_token_2026_personal_branding';
-
-async function forwardToMissionControl(data) {
-  try {
-    const response = await fetch(MISSION_CONTROL_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${MISSION_CONTROL_TOKEN}`
-      },
-      body: JSON.stringify(data)
-    });
-    console.log('Mission Control:', response.status);
-  } catch(e) {
-    console.log('Mission Control error:', e.message);
-  }
-}
-
 const server = http.createServer(async (req, res) => {
   if (req.method === 'POST') {
     let body = '';
@@ -33,19 +14,16 @@ const server = http.createServer(async (req, res) => {
       try {
         const data = JSON.parse(body);
         console.log('Received:', data);
-
-        // 1. Supabase mein save karo
+        
         const result = await supabase.from('activity').insert({
           agent: data.agent || 'main',
           action: data.action || 'message',
           message: data.message || body,
           user_id: data.user_id || null
         });
+        
         console.log('Supabase result:', JSON.stringify(result));
-
-        // 2. Mission Control ko forward karo
-        await forwardToMissionControl(data);
-
+        
         res.writeHead(200);
         res.end('OK');
       } catch(e) {
