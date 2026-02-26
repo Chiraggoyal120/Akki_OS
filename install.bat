@@ -6,7 +6,7 @@ echo    Akki OS - Personal Branding Operating System
 echo ===================================================
 echo.
 
-echo [1/7] Checking Node.js...
+echo [1/8] Checking Node.js...
 node --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo ERROR: Node.js not found! Install from: https://nodejs.org
@@ -16,12 +16,12 @@ if %errorlevel% neq 0 (
 echo OK: Node.js ready
 
 echo.
-echo [2/7] Installing OpenClaw...
+echo [2/8] Installing OpenClaw...
 call npm install -g openclaw >nul 2>&1
 echo OK: OpenClaw installed
 
 echo.
-echo [3/7] Setting up configuration...
+echo [3/8] Setting up configuration...
 if not exist .env (
     copy .env.example .env >nul
     notepad .env
@@ -39,26 +39,39 @@ for /f "usebackq tokens=1,2 delims==" %%a in (".env") do (
 echo OK: Config loaded
 
 echo.
-echo [4/7] Setting up OpenClaw...
+echo [4/8] Setting up OpenClaw...
 call npx openclaw onboard --non-interactive --accept-risk --gemini-api-key "%GEMINI_API_KEY%" --workspace %CD%\workspace --gateway-token "%OPENCLAW_TOKEN%" --gateway-bind loopback --install-daemon --skip-channels --flow quickstart
 echo OK: OpenClaw configured
 
 echo.
-echo [5/7] Starting Gateway + Telegram...
+echo [5/8] Starting Gateway...
 schtasks /run /tn "OpenClaw Gateway" >nul 2>&1
-timeout /t 5 /nobreak >nul
-call npx openclaw channels add telegram --token "%TELEGRAM_BOT_TOKEN%" >nul 2>&1
-echo OK: Gateway + Telegram ready
+echo Waiting for gateway to be ready...
+:waitloop
+npx openclaw gateway probe >nul 2>&1
+if %errorlevel% neq 0 (
+    timeout /t 3 /nobreak >nul
+    goto waitloop
+)
+echo OK: Gateway ready!
 
 echo.
-echo [6/7] Registering agents...
+echo [6/8] Adding Telegram + Registering agents...
+call npx openclaw channels add telegram --token "%TELEGRAM_BOT_TOKEN%" >nul 2>&1
+echo OK: Telegram added
 for %%a in (jarvis fury loki shuri atlas echo oracle pulse vision) do (
     call npx openclaw agents create %%a --workspace %CD%\agents\%%a >nul 2>&1
     echo   OK: %%a registered
 )
 
 echo.
-echo [7/7] Starting webhook server...
+echo [7/8] Copying skills to workspace...
+if not exist workspace\skills mkdir workspace\skills
+xcopy /E /I /Y skills\* workspace\skills\ >nul 2>&1
+echo OK: Skills copied to workspace
+
+echo.
+echo [8/8] Starting webhook server...
 cd skills\webhook-server\scripts
 call npm init -y >nul 2>&1
 call npm install @supabase/supabase-js >nul 2>&1
