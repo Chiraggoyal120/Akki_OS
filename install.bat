@@ -69,8 +69,9 @@ if not exist .env (
     echo.
     echo --- Step 3: Gateway Password ---
     echo This protects your local AI dashboard.
+    echo Minimum 8 characters recommended!
     echo.
-    set /p OPENCLAW_TOKEN="Enter Gateway Password (e.g. akki2026): "
+    set /p OPENCLAW_TOKEN="Enter Gateway Password (e.g. akki2026secure): "
 
     echo.
     echo Saving...
@@ -108,11 +109,21 @@ echo OK: OpenClaw configured
 echo.
 echo [5/7] Starting Gateway...
 schtasks /run /tn "OpenClaw Gateway" >nul 2>&1
-echo Waiting for gateway...
+echo Waiting for gateway to start (max 30 seconds)...
+set WAIT_COUNT=0
 :waitloop
 timeout /t 3 /nobreak >nul
+set /a WAIT_COUNT+=1
 npx openclaw status 2>&1 | findstr "reachable" >nul
-if %errorlevel% neq 0 goto waitloop
+if %errorlevel% equ 0 goto gateway_ready
+if %WAIT_COUNT% geq 10 (
+    echo WARNING: Gateway slow, trying manual start...
+    npx openclaw gateway start >nul 2>&1
+    timeout /t 5 /nobreak >nul
+    goto gateway_ready
+)
+goto waitloop
+:gateway_ready
 echo OK: Gateway ready!
 
 echo.
@@ -143,14 +154,7 @@ if not exist .env (
     (
         echo FRONTEND_PORT=3000
         echo BACKEND_PORT=8000
-        echo POSTGRES_DB=mission_control
-        echo POSTGRES_USER=postgres
-        echo POSTGRES_PASSWORD=postgres
-        echo POSTGRES_PORT=5432
         echo CORS_ORIGINS=http://localhost:3000
-        echo DB_AUTO_MIGRATE=true
-        echo LOG_LEVEL=INFO
-        echo REQUEST_LOG_SLOW_MS=1000
         echo AUTH_MODE=local
         echo LOCAL_AUTH_TOKEN=!OPENCLAW_TOKEN!
         echo NEXT_PUBLIC_API_URL=http://localhost:8000
@@ -166,7 +170,7 @@ echo    Akki OS is LIVE!
 echo ===================================================
 echo.
 echo OpenClaw:        http://127.0.0.1:18789/?token=!OPENCLAW_TOKEN!
-echo Mission Control: http://localhost:3000  (Login: !OPENCLAW_TOKEN!)
+echo Mission Control: http://localhost:3000
 echo.
 echo Next Step: Open Telegram and message your bot!
 echo Your AI will guide you through the rest.
