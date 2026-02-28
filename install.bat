@@ -32,7 +32,7 @@ echo OK: OpenClaw installed
 
 echo.
 echo ===================================================
-echo    SETUP
+echo    SETUP - One thing needed!
 echo ===================================================
 echo.
 
@@ -41,35 +41,22 @@ if not exist .env (
     echo This will be your dashboard login password.
     echo.
     set /p OPENCLAW_TOKEN="Enter Gateway Password (e.g. akki2026): "
-
-    echo.
-    echo Saving...
-    (
-        echo OPENCLAW_TOKEN=!OPENCLAW_TOKEN!
-    ) > .env
+    (echo OPENCLAW_TOKEN=!OPENCLAW_TOKEN!) > .env
     echo OK: Saved!
 ) else (
     echo OK: Found existing .env, loading...
     for /f "usebackq tokens=1,2 delims==" %%a in (".env") do (
         if "%%a"=="OPENCLAW_TOKEN" set OPENCLAW_TOKEN=%%b
-        if "%%a"=="TELEGRAM_BOT_TOKEN" set TELEGRAM_BOT_TOKEN=%%b
     )
 )
 
 echo.
 echo OpenClaw will now guide you through full setup...
-echo (Choose your AI provider, add Telegram, etc.)
 echo.
 call npx openclaw onboard --workspace %~dp0workspace --gateway-bind loopback --install-daemon --gateway-token "!OPENCLAW_TOKEN!"
 
 echo.
 echo [4/4] Setting up Agents + Skills + Webhook + Mission Control...
-
-REM Load telegram token from openclaw config
-for /f "tokens=2 delims=:, \"" %%a in ('findstr "botToken" "%USERPROFILE%\.openclaw\openclaw.json"') do set TELEGRAM_BOT_TOKEN=%%~a
-
-REM Save telegram token
-echo TELEGRAM_BOT_TOKEN=!TELEGRAM_BOT_TOKEN!>>.env
 
 REM Register agents
 for %%a in (jarvis fury loki shuri atlas echo oracle pulse vision) do (
