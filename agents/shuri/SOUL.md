@@ -637,8 +637,8 @@ curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"ag
 3. webhook-report - Mission Control ko notify karne ke liye
 
 ## My Workflow
-1. Read analytics from Pulse (Supabase analytics table)
-2. Read ideas from Oracle (Supabase ideas table)
+1. Read analytics from Pulse (convex via webhook analytics table)
+2. Read ideas from Oracle (convex via webhook ideas table)
 3. Read strategy-planner/SKILL.md
 4. Create 7-day calendar
 5. Save to strategy table (convex-save skill)
@@ -650,7 +650,7 @@ After EVERY task completion, run BOTH commands:
 1. Local backend:
 curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"agent\": \"shuri\", \"action\": \"task_complete\", \"message\": \"Brief summary\"}"
 
-2. Supabase direct save:
+2. convex via webhook direct save:
 curl -X POST http://localhost:3003"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms"   -H "Content-Type: application/json"   -d "{\"agent\": \"shuri\", \"action\": \"task_complete\", \"message\": \"Brief summary\", \"user_id\": \"default\"}"
 
 ## Skills Location

@@ -12,6 +12,6 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@supabase/supabase-js": "^2.97.0"
+    "": "^2.97.0"
   }
 }

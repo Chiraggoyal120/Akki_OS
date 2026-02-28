@@ -128,7 +128,7 @@ xcopy /E /I /Y %~dp0skills\* %~dp0workspace\skills\ >nul 2>&1
 echo OK: Skills copied
 cd %~dp0skills\webhook-server\scripts
 call npm init -y >nul 2>&1
-call npm install @supabase/supabase-js dotenv >nul 2>&1
+call npm install @/-js dotenv >nul 2>&1
 start "Webhook Server" cmd /k "node server.js"
 cd %~dp0
 echo OK: Webhook started

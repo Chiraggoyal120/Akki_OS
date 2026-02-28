@@ -1,12 +1,12 @@
 ---
 name: convex via webhook-save
-description: Data ko Supabase database mein save karo
+description: Data ko convex via webhook database mein save karo
 ---
 
-# Supabase Save Skill
+# convex via webhook Save Skill
 
 ## Purpose
-Data ko Supabase database mein save karo
+Data ko convex via webhook database mein save karo
 
 ## Usage
 curl -X POST http://localhost:3003

@@ -24,13 +24,13 @@ Sunday: Plan next week strategy
 - Minimum 5 posts per week
 
 ## Input Needed
-- User profile from Supabase
+- User profile from convex via webhook
 - Last week performance from Pulse
 - Current ideas from Oracle
 - Pain points from Fury
 
 ## After Planning
-1. Save strategy to Supabase:
+1. Save strategy to convex via webhook:
 curl -X POST http://localhost:3003
   -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms" \
   -H "Content-Type: application/json" \

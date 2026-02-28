@@ -9,7 +9,7 @@ description: Research data se 100s of content ideas generate karna
 Research data se 100s of content ideas generate karna
 
 ## Input
-- Pain points from Supabase
+- Pain points from convex via webhook
 - User profile and niche
 - Current trends
 
@@ -28,7 +28,7 @@ Pain Point: [Which pain it addresses]
 Hook: [First line of post]
 
 ## After Generating
-1. Save ideas to Supabase:
+1. Save ideas to convex via webhook:
 curl -X POST http://localhost:3003
   -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms" \
   -H "Content-Type: application/json" \

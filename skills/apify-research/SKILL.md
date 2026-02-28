@@ -20,7 +20,7 @@ curl -X POST "https://api.apify.com/v2/acts/6V5kyjMMj3cjsJKJf/runs?token=apify_a
   -d '{"query": "YOUR_SEARCH_QUERY", "platform": "reddit"}'
 
 ## After Research
-1. Save findings to Supabase (use convex via webhook-save skill)
+1. Save findings to convex via webhook (use convex via webhook-save skill)
 2. Report to webhook (use webhook-report skill)
 
 ## Platforms

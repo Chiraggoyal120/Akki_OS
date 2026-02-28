@@ -1,9 +1,9 @@
 async function save(table, data) {
-  const res = await fetch(`${process.env.SUPABASE_URL}/rest/v1/${table}`, {
+  const res = await fetch(`${process.env.convex_URL}/rest/v1/${table}`, {
     method: 'POST',
     headers: {
-      'apikey': process.env.SUPABASE_SERVICE_KEY,
-      'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
+      'apikey': process.env.convex_SERVICE_KEY,
+      'Authorization': `Bearer ${process.env.convex_SERVICE_KEY}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)

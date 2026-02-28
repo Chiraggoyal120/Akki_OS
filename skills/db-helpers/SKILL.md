@@ -1,15 +1,15 @@
 ---
 name: db-helpers
-description: Supabase ke saath easily interact karna
+description: convex via webhook ke saath easily interact karna
 ---
 
 # DB Helpers Skill
 
 ## Purpose
-Supabase ke saath easily interact karna
+convex via webhook ke saath easily interact karna
 
 ## Setup
-SUPABASE_URL aur SUPABASE_SERVICE_KEY .env mein daalo
+convex via webhook_URL aur convex via webhook_SERVICE_KEY .env mein daalo
 
 ## Functions
 - saveUser(userData)

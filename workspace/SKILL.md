@@ -11,7 +11,7 @@ Main agent ka brain - identity, instructions aur memory
 1. Agent starts → SOUL.md padhta hai
 2. Task milta hai → INSTRUCTIONS.md follow karta hai
 3. Skills use karta hai → Kaam karta hai
-4. Supabase mein save karta hai
+4. convex mein save karta hai
 5. Webhook report karta hai
 
 ## Customize karo

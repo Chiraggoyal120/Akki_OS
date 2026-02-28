@@ -95,7 +95,7 @@ Content-Type: application/json
 Examples:
 - New activity: {"agent": "loki", "action": "draft_created", "message": "LinkedIn post written"}
 - New draft: {"agent": "loki", "action": "draft", "content": "post content", "platform": "linkedin"}
-- Config update: {"action": "config_update", "key": "SUPABASE_URL", "value": "https://..."}
+- Config update: {"action": "config_update", "key": "convex_URL", "value": "https://..."}
 
 Webhook automatically saves to Convex database and Mission Control.
 

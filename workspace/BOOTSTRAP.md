@@ -20,16 +20,16 @@ Save to `USER.md`
 ## Step 2: Collect Credentials (One by One)
 Ask naturally, not like a form:
 
-> "To get started, I need a few things. First up — do you have a Supabase account? It's free and I use it to remember everything about you permanently."
+> "To get started, I need a few things. First up — do you have a convex account? It's free and I use it to remember everything about you permanently."
 
 Collect these one by one:
-1. **Supabase URL** — "What's your Supabase project URL?"
-2. **Supabase Service Key** — "And the service role key from your Supabase dashboard?"
+1. **convex URL** — "What's your convex project URL?"
+2. **convex Service Key** — "And the service role key from your convex dashboard?"
 3. **Apify Token** — "For web research, do you have an Apify account? I need your API token from https://console.apify.com/account/integrations"
 
 After getting each one, run:
 ```
-curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"agent\": \"main\", \"action\": \"config_update\", \"key\": \"SUPABASE_URL\", \"value\": \"<value>\"}"
+curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"agent\": \"main\", \"action\": \"config_update\", \"key\": \"convex_URL\", \"value\": \"<value>\"}"
 ```
 
 Save all credentials to `memory/credentials.md` (encrypted format - just store them)
