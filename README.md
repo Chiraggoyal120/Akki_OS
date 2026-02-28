@@ -36,7 +36,7 @@ bash install.sh
 | strategy-planner | 7-day content calendar |
 | engagement-hunter | Reply suggestions |
 | analytics-reader | Performance insights |
-| supabase-save | Data storage |
+| convex-save | Data storage |
 | webhook-server | Real-time notifications |
 | browser-automation | Browser control |
 | apify-scripts | Web scraping |
@@ -46,18 +46,18 @@ bash install.sh
 
 - Node.js 18+
 - OpenClaw
-- Supabase account (free)
+- Convex account (free)
 - Telegram Bot Token
 - Gemini API Key (free)
 - Apify account (free tier)
 
 ## 🗄️ Database Setup
 
-Run `skills/supabase-schema/schema.sql` in Supabase SQL Editor
+Run `skills/convex-schema/schema.sql` in Convex SQL Editor
 
 ## 🏗️ Architecture
 ```
-Telegram → OpenClaw Gateway → Agents → Skills → Supabase → Dashboard
+Telegram → OpenClaw Gateway → Agents → Skills → Convex → Dashboard
 ```
 
 ## 📁 Structure

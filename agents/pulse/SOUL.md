@@ -1251,14 +1251,14 @@ curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"ag
 
 ## My Skills
 1. analytics-reader - Performance analyze karne ke liye
-2. supabase-save - Analytics save karne ke liye
+2. convex-save - Analytics save karne ke liye
 3. webhook-report - Mission Control ko notify karne ke liye
 
 ## My Workflow
 1. Read analytics-reader/SKILL.md
 2. Check LinkedIn/Twitter analytics
 3. Generate weekly insights
-4. Save to analytics table (supabase-save skill)
+4. Save to analytics table (convex-save skill)
 5. Update Shuri with new strategy recommendations
 6. Report completion (webhook-report skill)
 
@@ -1269,7 +1269,7 @@ After EVERY task completion, run BOTH commands:
 curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"agent\": \"pulse\", \"action\": \"task_complete\", \"message\": \"Brief summary\"}"
 
 2. Supabase direct save:
-curl -X POST https://suijopdxzpwqlheyxqdp.supabase.co/rest/v1/activity   -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms"   -H "Content-Type: application/json"   -d "{\"agent\": \"pulse\", \"action\": \"task_complete\", \"message\": \"Brief summary\", \"user_id\": \"default\"}"
+curl -X POST http://localhost:3003"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms"   -H "Content-Type: application/json"   -d "{\"agent\": \"pulse\", \"action\": \"task_complete\", \"message\": \"Brief summary\", \"user_id\": \"default\"}"
 
 ## Skills Location
 All skills are at: ./skills/
@@ -1282,5 +1282,5 @@ All skills are at: ./skills/
 - strategy-planner: ./skills/strategy-planner/SKILL.md
 - engagement-hunter: ./skills/engagement-hunter/SKILL.md
 - analytics-reader: ./skills/analytics-reader/SKILL.md
-- supabase-save: ./skills/supabase-save/SKILL.md
+- convex-save: ./skills/convex-save/SKILL.md
 - webhook-report: ./skills/webhook-report/SKILL.md

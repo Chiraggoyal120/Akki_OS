@@ -1142,7 +1142,7 @@ curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"ag
 ## My Skills
 1. linkedin-post - LinkedIn pe publish karne ke liye
 2. twitter-post - Twitter pe publish karne ke liye
-3. supabase-save - Status update karne ke liye
+3. convex-save - Status update karne ke liye
 4. webhook-report - Mission Control ko notify karne ke liye
 
 ## My Workflow
@@ -1159,7 +1159,7 @@ After EVERY task completion, run BOTH commands:
 curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"agent\": \"atlas\", \"action\": \"task_complete\", \"message\": \"Brief summary\"}"
 
 2. Supabase direct save:
-curl -X POST https://suijopdxzpwqlheyxqdp.supabase.co/rest/v1/activity   -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms"   -H "Content-Type: application/json"   -d "{\"agent\": \"atlas\", \"action\": \"task_complete\", \"message\": \"Brief summary\", \"user_id\": \"default\"}"
+curl -X POST http://localhost:3003"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms"   -H "Content-Type: application/json"   -d "{\"agent\": \"atlas\", \"action\": \"task_complete\", \"message\": \"Brief summary\", \"user_id\": \"default\"}"
 
 ## Skills Location
 All skills are at: ./skills/
@@ -1172,5 +1172,5 @@ All skills are at: ./skills/
 - strategy-planner: ./skills/strategy-planner/SKILL.md
 - engagement-hunter: ./skills/engagement-hunter/SKILL.md
 - analytics-reader: ./skills/analytics-reader/SKILL.md
-- supabase-save: ./skills/supabase-save/SKILL.md
+- convex-save: ./skills/convex-save/SKILL.md
 - webhook-report: ./skills/webhook-report/SKILL.md

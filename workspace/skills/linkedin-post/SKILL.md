@@ -24,7 +24,7 @@ node ~/.openclaw/mission-control/browser-automation/linkedin-actions.js
 
 ## After Publishing
 1. Update draft status in Supabase:
-curl -X PATCH https://suijopdxzpwqlheyxqdp.supabase.co/rest/v1/drafts?id=eq.DRAFT_ID \
+curl -X PATCH http://localhost:3003
   -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms" \
   -H "Content-Type: application/json" \
   -d '{"status": "published"}'

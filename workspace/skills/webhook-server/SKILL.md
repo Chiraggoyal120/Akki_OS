@@ -11,7 +11,7 @@ Mission Control ko real-time notifications bhejne ke liye local server
 ## Setup
 cd skills/webhook-server
 npm init -y
-npm install @supabase/supabase-js
+npm install @convex via webhook/convex via webhook-js
 node server.js &
 
 ## Port

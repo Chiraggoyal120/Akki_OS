@@ -1,9 +1,6 @@
-const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config({ path: '/home/ubuntu/.openclaw/workspace/.env' });
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
-
-module.exports = supabase;
+// DEPRECATED - Use convex via webhook instead
+// POST http://localhost:3003
+// {"agent": "name", "action": "type", "message": "content"}
+const { ConvexHttpClient } = require('convex/browser');
+const client = new ConvexHttpClient('https://graceful-clownfish-349.convex.cloud');
+module.exports = client;

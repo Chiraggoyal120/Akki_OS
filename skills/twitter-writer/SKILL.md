@@ -33,7 +33,7 @@ X (Twitter) ke liye viral threads aur tweets likhna
 
 ## After Writing
 1. Save draft to Supabase:
-curl -X POST https://suijopdxzpwqlheyxqdp.supabase.co/rest/v1/drafts \
+curl -X POST http://localhost:3003
   -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1aWpvcGR4enB3cWxoZXl4cWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTY1NDYyMiwiZXhwIjoyMDg3MjMwNjIyfQ.-Zws-y7D3n7pVtrkg-UVtJxJ-Ar7M0quIgfhzEQZPms" \
   -H "Content-Type: application/json" \
   -d '{"content": "POST_CONTENT", "platform": "twitter", "status": "pending"}'

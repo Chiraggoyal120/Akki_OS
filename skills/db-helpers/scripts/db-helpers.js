@@ -1,51 +1,44 @@
-const supabase = require('./supabase-client');
+const { ConvexHttpClient } = require('convex/browser');
+const { api } = require('../../../convex/_generated/api');
 
-// User save/get
-async function saveUser(telegramId, profile) {
-  const { data, error } = await supabase
-    .from('users')
-    .upsert({ telegram_id: telegramId, profile: profile, id: telegramId })
-    .select();
-  if (error) console.error('saveUser error:', error);
-  return data;
+const convex = new ConvexHttpClient('https://graceful-clownfish-349.convex.cloud');
+
+async function logActivity(agent, action, message, user_id = null) {
+  try {
+    await convex.mutation(api.activity.log, { agent, action, message, user_id });
+    console.log('Activity logged to Convex');
+  } catch(e) {
+    console.error('Convex error:', e.message);
+    // Fallback to webhook
+    await fetch('http://localhost:3003', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agent, action, message, user_id })
+    });
+  }
 }
 
-async function getUser(telegramId) {
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('telegram_id', telegramId)
-    .single();
-  if (error) return null;
-  return data;
+async function saveDraft(agent, content, platform, user_id = null) {
+  try {
+    await convex.mutation(api.activity.log, {
+      agent,
+      action: 'draft',
+      message: JSON.stringify({ content, platform }),
+      user_id
+    });
+    console.log('Draft saved to Convex');
+  } catch(e) {
+    console.error('Convex error:', e.message);
+  }
 }
 
-// Draft save/get
-async function saveDraft(userId, content, platform) {
-  const { data, error } = await supabase
-    .from('drafts')
-    .insert({ user_id: userId, content: content, platform: platform })
-    .select();
-  if (error) console.error('saveDraft error:', error);
-  return data;
+async function saveConfig(key, value) {
+  try {
+    await convex.mutation(api.config.set, { key, value });
+    console.log(`Config saved: ${key}`);
+  } catch(e) {
+    console.error('Convex error:', e.message);
+  }
 }
 
-async function getDrafts(userId) {
-  const { data, error } = await supabase
-    .from('drafts')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('status', 'pending');
-  if (error) return [];
-  return data;
-}
-
-// Activity log
-async function logActivity(agent, action, message) {
-  const { error } = await supabase
-    .from('activity')
-    .insert({ agent: agent, action: action, message: message });
-  if (error) console.error('logActivity error:', JSON.stringify(error));
-}
-
-module.exports = { saveUser, getUser, saveDraft, getDrafts, logActivity };
+module.exports = { logActivity, saveDraft, saveConfig };
