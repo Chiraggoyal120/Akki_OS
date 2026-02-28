@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// Supabase client - lazy init after credentials collected
+// Database client
   }
 }
 
@@ -72,8 +72,8 @@ const server = http.createServer(async (req, res) => {
           if (fs.existsSync(MC_ENV_PATH)) {
             updateEnvFile(MC_ENV_PATH, key, value);
 
-            // Restart Mission Control docker if Supabase credentials updated
-            if (key === 'SUPABASE_URL' || key === 'SUPABASE_SERVICE_KEY') {
+            // Restart Mission Control docker if credentials updated
+            if (key === 'CONVEX_URL' || key === 'APIFY_TOKEN') {
               console.log('Restarting Mission Control...');
               try {
                 execSync('docker compose -f ' + path.join(__dirname, '../../../mission_control/compose.yml') + ' --env-file ' + MC_ENV_PATH + ' up -d', { stdio: 'inherit' });
@@ -90,7 +90,7 @@ const server = http.createServer(async (req, res) => {
         }
 
         // Normal activity log
-        const sb = getSupabase();
+        // convex handles storage
         if (sb) {
           await sb.from('activity').insert({
             agent: data.agent || 'main',
