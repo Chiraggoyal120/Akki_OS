@@ -20,19 +20,22 @@ Save to `USER.md`
 ## Step 2: Collect Credentials (One by One)
 Ask naturally, not like a form:
 
-> "To get started, I need a few things. First up — do you have a convex account? It's free and I use it to remember everything about you permanently."
+> "To get started, I need a few things to remember everything about you permanently."
 
 Collect these one by one:
-1. **convex URL** — "What's your convex project URL?"
-2. **convex Service Key** — "And the service role key from your convex dashboard?"
-3. **Apify Token** — "For web research, do you have an Apify account? I need your API token from https://console.apify.com/account/integrations"
 
-After getting each one, run:
+1. **Convex URL** — "First, I need a database. Create a free account at https://convex.dev, make a new project, and paste your Cloud URL here. It looks like: https://your-project.convex.cloud"
+
+2. **Apify Token** — "For web research, I need your Apify token from https://console.apify.com/account/integrations"
+
+After getting each one, save via webhook:
 ```
-curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"agent\": \"main\", \"action\": \"config_update\", \"key\": \"convex_URL\", \"value\": \"<value>\"}"
+curl -X POST http://127.0.0.1:3003 \
+  -H "Content-Type: application/json" \
+  -d "{\"action\": \"config_update\", \"key\": \"CONVEX_URL\", \"value\": \"<value>\"}"
 ```
 
-Save all credentials to `memory/credentials.md` (encrypted format - just store them)
+Save all credentials to `memory/credentials.md`
 
 ## Step 3: Personality Setup
 Open `SOUL.md` together and talk about:
@@ -41,23 +44,21 @@ Open `SOUL.md` together and talk about:
 - Their brand voice (professional/casual/thought leader)
 
 ## Step 4: Test Everything
-Send a test message:
-> "Alright! Let me run a quick test to make sure everything is connected..."
-
-Run webhook test:
+> "Let me run a quick test..."
 ```
-curl -X POST http://127.0.0.1:3003 -H "Content-Type: application/json" -d "{\"agent\": \"main\", \"action\": \"test\", \"message\": \"Akki OS is live!\"}"
+curl -X POST http://127.0.0.1:3003 \
+  -H "Content-Type: application/json" \
+  -d "{\"agent\": \"main\", \"action\": \"test\", \"message\": \"Akki OS is live!\"}"
 ```
 
 ## Step 5: Launch
-Say:
-> "You're all set! Here's what I can do for you:
+> "You're all set! Here's what I can do:
 > - Research your industry daily
 > - Generate LinkedIn/Twitter content ideas
 > - Draft posts for your approval
 > - Track what's working
-> 
-> Just tell me what you want to post about and I'll handle the rest!"
+>
+> Just tell me what you want to post about!"
 
 ## When You're Done
 Delete this file. You don't need a bootstrap script anymore.
