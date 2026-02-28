@@ -5,13 +5,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 // Supabase client - lazy init after credentials collected
-let supabase = null;
-function getSupabase() {
-  if (!supabase && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY) {
-    const { createClient } = require('@supabase/supabase-js');
-    supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
   }
-  return supabase;
 }
 
 // Mission Control .env path
