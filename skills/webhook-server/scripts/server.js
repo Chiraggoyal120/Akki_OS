@@ -4,15 +4,29 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// Database client
-  }
-}
-
-// Mission Control .env path
 const MC_ENV_PATH = path.join(__dirname, '../../../mission_control/.env');
 const AKKI_ENV_PATH = path.join(__dirname, '../../../.env');
 
-// Update a key in any .env file
+// Dynamic Convex client
+let convexClient = null;
+let convexApi = null;
+
+async function getConvex() {
+  const url = process.env.CONVEX_URL;
+  if (!url) return null;
+  try {
+    if (!convexClient) {
+      const { ConvexHttpClient } = require('convex/browser');
+      convexClient = new ConvexHttpClient(url);
+      convexApi = require('../../../convex/_generated/api');
+    }
+    return { client: convexClient, api: convexApi.api };
+  } catch(e) {
+    console.log('Convex init error:', e.message);
+    return null;
+  }
+}
+
 function updateEnvFile(filePath, key, value) {
   try {
     let env = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
@@ -23,20 +37,18 @@ function updateEnvFile(filePath, key, value) {
       env += `\n${key}=${value}`;
     }
     fs.writeFileSync(filePath, env);
-    console.log(`Updated ${key} in ${filePath}`);
+    console.log(`Updated ${key}`);
     return true;
   } catch(e) {
-    console.log(`Error updating ${filePath}:`, e.message);
+    console.log(`Error updating env:`, e.message);
     return false;
   }
 }
 
-// Forward to Mission Control
-const MISSION_CONTROL_URL = 'http://localhost:8000/api/v1/activity';
 async function forwardToMissionControl(data) {
   try {
-    const token = process.env.OPENCLAW_TOKEN || process.env.MISSION_CONTROL_TOKEN;
-    const response = await fetch(MISSION_CONTROL_URL, {
+    const token = process.env.OPENCLAW_TOKEN;
+    await fetch('http://localhost:8000/api/v1/activity', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +56,6 @@ async function forwardToMissionControl(data) {
       },
       body: JSON.stringify(data)
     });
-    console.log('Mission Control:', response.status);
   } catch(e) {
     console.log('Mission Control error:', e.message);
   }
@@ -57,27 +68,29 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const data = JSON.parse(body);
-        console.log('Received:', data);
+        console.log('Received:', data.action || data.agent);
 
-        // Handle config_update from agent
+        // Config update from agent
         if (data.action === 'config_update') {
-          const key = data.key;
-          const value = data.value;
+          const { key, value } = data;
 
-          // Update Akki OS .env
+          // Update .env files
           updateEnvFile(AKKI_ENV_PATH, key, value);
           process.env[key] = value;
+
+          // Reset convex client if URL changed
+          if (key === 'CONVEX_URL') {
+            convexClient = null;
+            convexApi = null;
+            console.log('Convex client reset with new URL:', value);
+          }
 
           // Update Mission Control .env
           if (fs.existsSync(MC_ENV_PATH)) {
             updateEnvFile(MC_ENV_PATH, key, value);
-
-            // Restart Mission Control docker if credentials updated
             if (key === 'CONVEX_URL' || key === 'APIFY_TOKEN') {
-              console.log('Restarting Mission Control...');
               try {
                 execSync('docker compose -f ' + path.join(__dirname, '../../../mission_control/compose.yml') + ' --env-file ' + MC_ENV_PATH + ' up -d', { stdio: 'inherit' });
-                console.log('Mission Control restarted!');
               } catch(e) {
                 console.log('Docker restart error:', e.message);
               }
@@ -89,14 +102,14 @@ const server = http.createServer(async (req, res) => {
           return;
         }
 
-        // Normal activity log
-        // convex handles storage
-        if (sb) {
-          await sb.from('activity').insert({
+        // Log activity to Convex
+        const convex = await getConvex();
+        if (convex) {
+          await convex.client.mutation(convex.api.activity.log, {
             agent: data.agent || 'main',
             action: data.action || 'message',
             message: data.message || body,
-            user_id: data.user_id || null
+            user_id: data.user_id || null,
           });
         }
 
